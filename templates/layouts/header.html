@@ -7,12 +7,21 @@
                 <div class="col-lg-6 col-md-7">
                     <div class="header__top__left">
                         <p>Free shipping, 30-day return or refund guarantee.</p>
+                        {% if request.user.is_authenticated %}
+                            <p>Hello, {{ request.user.username }}</p>
+                        {% else %}
+                            <p>Hello, who are you ?</p>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-5">
                     <div class="header__top__right">
                         <div class="header__top__links">
-                            <a href="#">Sign in</a>
+                            {% if request.user.is_authenticated %}
+                                <a href="{% url 'users:signout' %}">Sign out</a>
+                            {% else %}
+                                <a href="{% url 'users:signin' %}">Sign in</a>
+                            {% endif %}
                             <a href="#">FAQs</a>
                         </div>
                         <div class="header__top__hover">

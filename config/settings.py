@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     # local apps
     'pages',
     'products',
+    'users',
+    'blogs',
 
     # outer apps
 
