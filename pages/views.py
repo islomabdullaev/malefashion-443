@@ -6,6 +6,7 @@ from django.views.generic import TemplateView, ListView
 # models
 from pages.models import BannerModel
 from products.models import ProductModel
+from blogs.models import PostModel
 
 # Create your views here
 # FBV - Function Based View
@@ -28,8 +29,17 @@ class AboutPageView(TemplateView):
     template_name = "about.html"
 
 
-class BlogPageView(TemplateView):
+class BlogPageView(ListView):
     template_name = "blog.html"
+    model = PostModel
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        posts = PostModel.objects.all()
+        tag = self.request.GET.get("tag")
+        if tag:
+            posts = PostModel.objects.filter(tags__title=tag)
+        return posts
 
 
 class ContactPageView(TemplateView):
