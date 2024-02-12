@@ -12,7 +12,7 @@
                         <ul>
                             <li>By {{ post.author.full_name }}</li>
                             <li>{{ post.created_at|date:'d F, Y' }}</li>
-                            <li>0 Comments</li>
+                            <li>{{ post.comments.all.count }} Comments</li>
                         </ul>
                     </div>
                 </div>
@@ -88,21 +88,43 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="comment__section">
+                            <ul>
+                                {% for comment in post.comments.all %}
+                                <li class="media">
+                                    <div class="media-body">
+                                        <span class="text-muted pull-right">
+                                            <small class="text-muted">
+                                                {{ comment.created_at|timesince }} ago
+                                            </small>
+                                        </span>
+                                        <strong>
+                                            {{ comment.name }}
+                                        </strong>
+                                        <p>
+                                            {{ comment.comments }}
+                                        </p>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                         <div class="blog__details__comment">
                             <h4>Leave A Comment</h4>
-                            <form action="#">
+                            <form action="{% url 'blogs:comment' pk=post.pk %}" method="POST">
+                                {% csrf_token %}
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4">
-                                        <input type="text" placeholder="Name">
+                                        <input name="name" type="text" placeholder="Name">
                                     </div>
                                     <div class="col-lg-4 col-md-4">
-                                        <input type="text" placeholder="Email">
+                                        <input name="email" type="text" placeholder="Email">
                                     </div>
                                     <div class="col-lg-4 col-md-4">
-                                        <input type="text" placeholder="Phone">
+                                        <input name="phone" type="text" placeholder="Phone">
                                     </div>
                                     <div class="col-lg-12 text-center">
-                                        <textarea placeholder="Comment"></textarea>
+                                        <textarea name="comments" placeholder="Comment"></textarea>
                                         <button type="submit" class="site-btn">Post Comment</button>
                                     </div>
                                 </div>
