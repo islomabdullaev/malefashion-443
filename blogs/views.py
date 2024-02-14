@@ -1,6 +1,7 @@
+from typing import Any
+from django.forms import BaseModelForm
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.urls import reverse, reverse_lazy
 from blogs.forms import CommentForm
 
 from blogs.models import CommentModel, PostModel
@@ -23,20 +24,36 @@ class BlogDetailView(DetailView):
     context_object_name = 'post'
 
 
-def create_comment(request, pk):
-    current_url_path = request.META['HTTP_REFERER']
-    if request.method == "POST":
-        post = PostModel.objects.get(pk=pk)
-        name = request.POST.get("name")
-        email = request.POST.get("email")
-        phone = request.POST.get("phone")
-        comments = request.POST.get("comments")
-        CommentModel.objects.create(
-            post=post,
-            name=name,
-            email=email,
-            phone=phone,
-            comments=comments
-        )
+# def create_comment(request, pk):
+#     if request.method == "POST":
+#         post = PostModel.objects.get(pk=pk)
+#         name = request.POST.get("name")
+#         email = request.POST.get("email")
+#         phone = request.POST.get("phone")
+#         comments = request.POST.get("comments")
+#         CommentModel.objects.create(
+#             post=post,
+#             name=name,
+#             email=email,
+#             phone=phone,
+#             comments=comments
+#         )
 
-        return redirect(current_url_path)
+#         return redirect("blogs:detail", pk=pk)
+    
+class CommentCreateView(CreateView):
+    model = CommentModel
+    template_name = "blog-details.html"
+    form_class = CommentForm
+
+    def form_valid(self, form):
+        pk = self.kwargs['pk']
+        post = PostModel.objects.get(pk=pk)
+        comment = form.save(commit=False)
+        comment.post = post
+        
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return redirect("blogs:detail", pk=pk)

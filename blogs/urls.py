@@ -1,8 +1,8 @@
 from django.urls import path
-from blogs.views import BlogDetailView, create_comment
+from blogs.views import BlogDetailView, CommentCreateView
 app_name = "blogs"
 
 urlpatterns = [
     path('posts/<int:pk>/', BlogDetailView.as_view(), name='detail'),
-    path('posts/<int:pk>/comment', create_comment, name='comment')
+    path('posts/<int:pk>/comment', CommentCreateView.as_view(), name='comment')
 ]
