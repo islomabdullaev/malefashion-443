@@ -52,7 +52,10 @@ class CommentCreateView(CreateView):
         comment = form.save(commit=False)
         comment.post = post
         
-        return super().form_valid(form)
+        try:
+            return super().form_valid(form)
+        except Exception:
+            return redirect('blogs:detail', pk=pk)
     
     def get_success_url(self):
         pk = self.kwargs['pk']
