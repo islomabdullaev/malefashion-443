@@ -7,6 +7,8 @@ from django.views.generic import TemplateView, ListView
 from pages.models import BannerModel
 from products.models import BrandModel, CategoryModel, ColorModel, ProductModel, SizeModel, TagModel
 from blogs.models import PostModel
+from django.db.models import Max, Min
+
 
 # Create your views here
 # FBV - Function Based View
@@ -26,13 +28,29 @@ class ShopPageView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["products"] = ProductModel.objects.all()
         context["categories"] = CategoryModel.objects.all()
         context["brands"] = BrandModel.objects.all()
         context["sizes"] = SizeModel.objects.all()
         context["colors"] = ColorModel.objects.all()
         context["tags"] = TagModel.objects.all()
+        context["min_price"] = ProductModel.objects.aggregate(min_price=Min('price'))['min_price']
+        context["max_price"] = ProductModel.objects.aggregate(min_price=Max('price'))['min_price']
         return context
+    
+    def get_queryset(self):
+        products = ProductModel.objects.all().order_by('price')
+        q = self.request.GET.get("q")
+        tag = self.request.GET.get("tag")
+        category = self.request.GET.get("category")
+        brand = self.request.GET.get("brand")
+        color = self.request.GET.get("color")
+        size = self.request.GET.get("size")
+
+        if q:
+            products = ProductModel.objects.filter(name__icontains=q)
+        elif tag:
+            products = ProductModel.objects.filter(tags__title=tag)
+        return products
 
 
 class AboutPageView(TemplateView):

@@ -27,10 +27,11 @@
                 <div class="col-lg-3">
                     <div class="shop__sidebar">
                         <div class="shop__sidebar__search">
-                            <form action="#">
-                                <input type="text" placeholder="Search...">
+                            <form method="GET">
+                                <input name="q"  type="text" placeholder="Search...">
                                 <button type="submit"><span class="icon_search"></span></button>
                             </form>
+                            <a class="text-primary" href="{% url 'pages:shop' %}">Clear filter</a>
                         </div>
                         <div class="shop__sidebar__accordion">
                             <div class="accordion" id="accordionExample">
@@ -43,7 +44,7 @@
                                             <div class="shop__sidebar__categories">
                                                 <ul class="nice-scroll">
                                                    {% for category in categories %}
-                                                    <li><a href="#">{{ category.title }} ({{ category.products.all.count }})</a></li>
+                                                    <li><a href="{% url 'pages:shop' %}?category={{ category.title }}">{{ category.title }} ({{ category.products.all.count }})</a></li>
                                                    {% endfor %}
                                                 </ul>
                                             </div>
@@ -59,7 +60,7 @@
                                             <div class="shop__sidebar__brand">
                                                 <ul>
                                                     {% for brand in brands %}
-                                                        <li><a href="#">{{ brand.title }}</a></li>
+                                                        <li><a href="{% url 'pages:shop' %}?brand={{ brand.title }}">{{ brand.title }}</a></li>
                                                     {% endfor %}
                                                 </ul>
                                             </div>
@@ -74,7 +75,7 @@
                                         <div class="card-body">
                                             <div class="shop__sidebar__price">
                                                 <ul>
-                                                    <li><a href="#">$10 - $100</a></li>
+                                                    <li><a href="#">${{ min_price }} - ${{ max_price }}</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -88,7 +89,7 @@
                                         <div class="card-body">
                                             <div class="shop__sidebar__size">
                                                 {% for size in sizes %}
-                                                    <label for="{{ size.title }}">{{ size.title }}
+                                                    <label for="{{ size.title }}"><a class="text-secondary" href="{% url 'pages:shop' %}?size={{ size.title }}">{{ size.title }}</a>
                                                         <input type="radio" id="{{ size.title }}">
                                                     </label>
                                                 {% endfor %}
@@ -104,9 +105,11 @@
                                         <div class="card-body">
                                             <div class="shop__sidebar__color">
                                                 {% for color in colors %}
+                                                <a href="{% url 'pages:shop' %}?color={{ color.name }}">
                                                     <label style="background-color: {{ color.code }};" for="{{ color.name }}">
                                                         <input type="radio" id="{{ color.name }}">
                                                     </label>
+                                                </a>
                                                 {% endfor %}
                                             </div>
                                         </div>
@@ -120,7 +123,7 @@
                                         <div class="card-body">
                                             <div class="shop__sidebar__tags">
                                                 {% for tag in tags %}
-                                                    <a href="#">{{ tag.title }}</a>
+                                                    <a href="{% url 'pages:shop' %}?tag={{ tag.title }}">{{ tag.title }}</a>
                                                 {% endfor %}
                                             </div>
                                         </div>
@@ -176,6 +179,7 @@
                                 <div class="product__item__text">
                                     <h6>{{ product.name }}</h6>
                                     <a href="#" class="add-cart">+ Add To Cart</a>
+                                    <p><i class="fa fa-star-o"></i> 4</p>
                                     <div class="rating">
                                             <i class="fa fa-star-o"></i>
                                             <i class="fa fa-star-o"></i>
