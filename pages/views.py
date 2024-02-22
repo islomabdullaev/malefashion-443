@@ -25,6 +25,7 @@ class ShopPageView(ListView):
     template_name = "shop.html"
     model = ProductModel
     context_object_name = "products"
+    paginate_by = 3
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -41,15 +42,26 @@ class ShopPageView(ListView):
         products = ProductModel.objects.all().order_by('price')
         q = self.request.GET.get("q")
         tag = self.request.GET.get("tag")
+        sort = self.request.GET.get("sort")
         category = self.request.GET.get("category")
         brand = self.request.GET.get("brand")
         color = self.request.GET.get("color")
         size = self.request.GET.get("size")
 
         if q:
-            products = ProductModel.objects.filter(name__icontains=q)
+            products = products.filter(name__icontains=q)
         elif tag:
-            products = ProductModel.objects.filter(tags__title=tag)
+            products = products.filter(tags__title=tag)
+        elif category:
+            products = products.filter(category__title=category)
+        elif brand:
+            products = products.filter(brand__title=brand)
+        elif size:
+            products = products.filter(size__title=size)
+        elif color:
+            products = products.filter(colors__name=color)
+        elif sort:
+            products = products.order_by(sort)
         return products
 
 

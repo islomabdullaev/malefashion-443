@@ -106,9 +106,7 @@
                                             <div class="shop__sidebar__color">
                                                 {% for color in colors %}
                                                 <a href="{% url 'pages:shop' %}?color={{ color.name }}">
-                                                    <label style="background-color: {{ color.code }};" for="{{ color.name }}">
-                                                        <input type="radio" id="{{ color.name }}">
-                                                    </label>
+                                                        <input style="background-color: {{ color.code }};" type="select" id="{{ color.name }}">
                                                 </a>
                                                 {% endfor %}
                                             </div>
@@ -138,17 +136,23 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="shop__product__option__left">
-                                    <p>Showing 1–12 of 126 results</p>
+                                    <p>Showing {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} results</p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="shop__product__option__right">
                                     <p>Sort by Price:</p>
-                                    <select>
-                                        <option value="">Low To High</option>
-                                        <option value="">$0 - $55</option>
-                                        <option value="">$55 - $100</option>
-                                    </select>
+                                    <form method="GET">
+                                        <select name="sort" onchange="this.form.submit()">
+                                            {% if request.GET.sort == "-price" %}
+                                                <option value="-price">${{ max_price }} - ${{ min_price }}</option>
+                                                <option value="price">${{ min_price }} - ${{ max_price }}</option>
+                                            {% else %}
+                                                <option value="price">${{ min_price }} - ${{ max_price }}</option>
+                                                <option value="-price">${{ max_price }} - ${{ min_price }}</option>
+                                            {% endif %}
+                                        </select>
+                                    </form>
                                 </div>
                             </div>
                         </div>
