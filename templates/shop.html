@@ -106,7 +106,9 @@
                                             <div class="shop__sidebar__color">
                                                 {% for color in colors %}
                                                 <a href="{% url 'pages:shop' %}?color={{ color.name }}">
-                                                        <input style="background-color: {{ color.code }};" type="select" id="{{ color.name }}">
+                                                        <label style="background-color: {{ color.code }};" for="">
+                                                            <input type="select" id="{{ color.name }}">
+                                                        </label>
                                                 </a>
                                                 {% endfor %}
                                             </div>
@@ -207,11 +209,13 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="product__pagination">
-                                <a class="active" href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                                <span>...</span>
-                                <a href="#">21</a>
+                                {% if page_obj.has_previous %}
+                                    <a href="?page={{ page_obj.previous_page_number }}"><i class="fa-solid fa-circle-chevron-left"></i></a>
+                                {% endif %}
+                                <a class="active" href="#">{{ page_obj.number }}</a>
+                                {% if page_obj.has_next %}
+                                    <a href="?page={{ page_obj.next_page_number }}"><i class="fa-solid fa-circle-chevron-right"></i></a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

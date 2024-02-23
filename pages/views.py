@@ -25,7 +25,7 @@ class ShopPageView(ListView):
     template_name = "shop.html"
     model = ProductModel
     context_object_name = "products"
-    paginate_by = 3
+    paginate_by = 2
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
