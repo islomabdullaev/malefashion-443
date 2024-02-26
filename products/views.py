@@ -3,7 +3,7 @@ from django.db import IntegrityError
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from products.models import ProductModel, WishlistModel
 
@@ -28,3 +28,9 @@ def add_to_wishlist(request, product_pk):
         WishlistModel.objects.get(user=request.user, product=product).delete()
     
     return redirect(current_url_path)
+
+
+class ShopDetailView(DetailView):
+    template_name = "shop-details.html"
+    model = ProductModel
+    context_object_name = "product"

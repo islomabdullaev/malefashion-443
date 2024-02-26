@@ -17,6 +17,13 @@ class HomePageView(ListView):
     template_name = "home.html"
     model = BannerModel
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["products"] = ProductModel.objects.all()[:8]
+        context["posts"] = PostModel.objects.all()
+
+        return context
+
     def get_queryset(self):
         return BannerModel.objects.filter(is_active=True)
 
