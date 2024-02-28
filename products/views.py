@@ -34,3 +34,9 @@ class ShopDetailView(DetailView):
     template_name = "shop-details.html"
     model = ProductModel
     context_object_name = "product"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["related_products"] = ProductModel.objects.filter(
+            category__title=self.object.category.title).exclude(pk=self.object.pk)[:4]
+        return context
