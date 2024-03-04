@@ -93,7 +93,7 @@
                                 <span class="label">New</span>
                                 <ul class="product__hover">
                                     <li>
-                                        <a href="{% url 'products:add_to_wishlist' product_pk=product.pk %}">
+                                        <a href="{% url 'products:add_to_wishlist' pk=product.pk %}">
                                             {% if request.user.is_authenticated %}
                                                 {% if request.user|in_wishlist:product %}
                                                     <img src="{% static 'img/icon/heartr.png' %}" alt="">

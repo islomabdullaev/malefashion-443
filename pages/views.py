@@ -91,3 +91,7 @@ class BlogPageView(ListView):
 
 class ContactPageView(TemplateView):
     template_name = "contact.html"
+
+
+class CartListView(TemplateView):
+    template_name = 'shopping-cart.html'

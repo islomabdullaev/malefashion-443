@@ -172,7 +172,7 @@
                                     {% endif  %}
                                     <ul class="product__hover">
                                         <li>
-                                            <a href="{% url 'products:add_to_wishlist' product_pk=product.pk %}">
+                                            <a href="{% url 'products:add_to_wishlist' pk=product.pk %}">
                                                 {% if request.user.is_authenticated %}
                                                     {% if request.user|in_wishlist:product %}
                                                         <img src="{% static 'img/icon/heartr.png' %}" alt="">
@@ -189,7 +189,7 @@
                                 </div>
                                 <div class="product__item__text">
                                     <h6>{{ product.name }}</h6>
-                                    <a href="#" class="add-cart">+ Add To Cart</a>
+                                    <a href="{% url 'products:add_to_cart' pk=product.pk %}" class="add-cart">+ Add To Cart</a>
                                     <p><i class="fa fa-star-o"></i>{{ product.rating }}</p>
                                     <p>{{ product.is_new }}</p>
                                     <div class="rating">

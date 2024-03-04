@@ -29,6 +29,17 @@ def add_to_wishlist(request, product_pk):
     
     return redirect(current_url_path)
 
+@login_required
+def add_to_cart(request, pk):
+    cart = request.session.get("cart", [])
+    if pk in cart:
+       cart.remove(pk) 
+    else:
+        cart.append(pk)
+    request.session["cart"] = cart
+    print(cart)
+    return redirect('pages:shop')
+
 
 class ShopDetailView(DetailView):
     template_name = "shop-details.html"
