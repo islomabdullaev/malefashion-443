@@ -51,7 +51,7 @@
                                 <div class="product__item__pic set-bg" data-setbg="{{ wishlist.product.image.url }}">
                                     <ul class="product__hover">
                                         <li>
-                                            <a href="{% url 'products:add_to_wishlist' product_pk=wishlist.product.pk %}">
+                                            <a href="{% url 'products:add_to_wishlist' pk=wishlist.product.pk %}">
                                                 {% if request.user|in_wishlist:wishlist.product %}
                                                     <img src="{% static 'img/icon/heartr.png' %}" alt="">
                                                 {% else %}

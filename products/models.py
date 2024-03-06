@@ -94,6 +94,10 @@ class ProductModel(models.Model):
             return True
         else:
             return False
+    
+    @staticmethod
+    def get_from_cart(cart):
+        return ProductModel.objects.filter(pk__in=cart)
 
 
 class ProductImage(models.Model):
