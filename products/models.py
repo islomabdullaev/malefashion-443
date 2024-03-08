@@ -95,6 +95,10 @@ class ProductModel(models.Model):
         else:
             return False
     
+    def get_real_price(self):
+        discount_price = (self.price / 100) * self.discount
+        return self.price - discount_price
+    
     @staticmethod
     def get_from_cart(cart):
         return ProductModel.objects.filter(pk__in=cart)

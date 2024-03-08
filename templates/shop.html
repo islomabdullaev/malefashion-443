@@ -1,7 +1,12 @@
 {% extends 'layouts/base.html' %}
+{% block extra_css %}
+    <!--Plugin CSS file with desired skin-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
+{% endblock %}
 {% block content %}
 {% load my_tags %}
 {% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-option">
         <div class="container">
@@ -74,9 +79,19 @@
                                     <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
                                         <div class="card-body">
                                             <div class="shop__sidebar__price">
-                                                <ul>
-                                                    <li><a href="#">${{ min_price }} - ${{ max_price }}</a></li>
-                                                </ul>
+                                                   <form action="" method="get">
+                                                     
+                                                    <input type="text" class="js-range-slider" name="my_range" value=""
+                                                    data-type="double"
+                                                    data-min="{{ min_price }}"
+                                                    data-max="{{ max_price }}"
+                                                    data-from="{{ from_price }}"
+                                                    data-to="{{ to_price }}"
+                                                    data-grid="true"
+                                                    
+                                                />
+                                                   <input style="background-color: #ed5565; border: none; border-radius: 9px; color: white; margin-top: 15px;" type="submit" id="input_submit">
+                                                   </form>
                                             </div>
                                         </div>
                                     </div>
@@ -199,7 +214,13 @@
                                             <i class="fa fa-star-o"></i>
                                             <i class="fa fa-star-o"></i>
                                     </div>
-                                    <h5>${{ product.price }}</h5>
+                                    <h5>${{ product.get_real_price }}
+                                        {% if product.discount %}
+                                            <span>
+                                                <s class="text-danger ml-3">{{ product.price }}</s>
+                                            </span>
+                                        {% endif %}
+                                    </h5>
                                     <div class="product__color__select">
                                         {% for color in product.colors.all %}
                                                 <label style="background-color: {{ color.code }};" for="pc-4">
@@ -230,4 +251,36 @@
         </div>
     </section>
     <!-- Shop Section End -->
+{% endblock %}
+{% block extra_js %}
+     <!--jQuery-->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+     <!--Plugin JavaScript file-->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+     <script>
+        $(".js-range-slider").ionRangeSlider({
+        onStart: function (data) {
+            // Called right after range slider instance initialised
+        },
+    
+        onChange: function (data) {
+            // Called every time handle position is changed
+    
+            console.log(data.from);
+        },
+    
+        onFinish: function (data) {
+            // Called then action is done and mouse is released
+    
+            console.log(data.to);
+        },
+    
+        onUpdate: function (data) {
+            // Called then slider is changed using Update public method
+    
+            console.log(data.from_percent);
+        }
+    });
+    </script>
 {% endblock %}

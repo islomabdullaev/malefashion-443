@@ -24,6 +24,9 @@
     <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {% block extra_css %}
+
+    {% endblock %}
 </head>
 
 <body>
@@ -33,7 +36,6 @@
     </div>
     {% include 'layouts/navbar.html' %}
     {% include 'layouts/header.html' %}
-    
     {% block content %}
     
     {% endblock %}
@@ -61,6 +63,9 @@
     <script src="{% static 'js/mixitup.min.js' %}"></script>
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}
+
+    {% endblock %}
 </body>
 
 </html>

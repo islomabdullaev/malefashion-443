@@ -28,6 +28,6 @@ def get_cart_info(request):
     cart = request.session.get("cart", [])
     if not cart:
         return 0, 0.0
-    quantity, total_price = len(cart), ProductModel.get_from_cart(cart).aggregate(Sum("real_price"))['total_price']
+    quantity, total_price = len(cart), ProductModel.get_from_cart(cart).aggregate(Sum("price"))['price__sum']
     
-    return quantity, round(total_price) if quantity and total_price else 0,0
+    return quantity, "{:.2f}".format(total_price)
