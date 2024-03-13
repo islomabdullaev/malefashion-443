@@ -24,10 +24,15 @@ def in_wishlist(user, product):
 
 
 @register.simple_tag
-def get_cart_info(request):
+def get_cart_info(request, coupon=None):
     cart = request.session.get("cart", [])
     if not cart:
         return 0, 0.0
-    quantity, total_price = len(cart), ProductModel.get_from_cart(cart).aggregate(Sum("price"))['price__sum']
-    
+    products = ProductModel.get_from_cart(cart)
+    total_price = 0
+    quantity = len(cart)
+    for product in products:
+        total_price += float(product.get_real_price())
+    if coupon:
+        total_price = total_price - ((total_price / 100) * float(coupon.discount))
     return quantity, "{:.2f}".format(total_price)

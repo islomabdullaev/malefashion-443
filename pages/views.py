@@ -5,7 +5,7 @@ from django.views.generic import TemplateView, ListView
 
 # models
 from pages.models import BannerModel
-from products.models import BrandModel, CategoryModel, ColorModel, ProductModel, SizeModel, TagModel
+from products.models import BrandModel, CategoryModel, ColorModel, CouponModel, ProductModel, SizeModel, TagModel
 from blogs.models import PostModel
 from django.db.models import Max, Min
 
@@ -114,6 +114,17 @@ class CartListView(ListView):
     template_name = 'shopping-cart.html'
     model = ProductModel
     context_object_name = "products"
+
+    def get_context_data(self, **kwargs: Any):
+        context = super().get_context_data(**kwargs)
+        code = self.request.GET.get("coupon")
+        try:
+            coupon = CouponModel.objects.get(code=code)
+            context['coupon'] = coupon
+        except CouponModel.DoesNotExist:
+            context['coupon'] = None
+        
+        return context
 
     def get_queryset(self):
         cart = self.request.session.get("cart", [])
