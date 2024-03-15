@@ -36,3 +36,12 @@ def get_cart_info(request, coupon=None):
     if coupon:
         total_price = total_price - ((total_price / 100) * float(coupon.discount))
     return quantity, "{:.2f}".format(total_price)
+
+
+@register.filter(name="in_cart")
+def in_cart(request, pk):
+    cart = request.session.get("cart", [])
+    if pk in cart:
+        return True
+    else:
+        return False

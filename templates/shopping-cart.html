@@ -80,11 +80,23 @@
                 <div class="col-lg-4">
                     <div class="cart__discount">
                         <h6>Discount codes</h6>
-                        {% if coupon %}
-                            <p>Coupon {{ coupon.code }} Activated with discount {{ coupon.discount }}% !</p>
-                        {% else %}
-                            <p>Coupon not found or expired !</p>
-                        {% endif %}
+                        <div style="height: 55px;">
+                            {% if request.GET.coupon %}
+                                {% if coupon %}
+                                    <div class="alert alert-success" role="alert">
+                                        Coupon Activated with discount {{ coupon.discount }}%
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-danger" role="alert">
+                                        Coupon not found or expired !
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <div>
+
+                                </div>
+                            {% endif %}
+                        </div>
                         <form method="GET">
                             <input name="coupon" type="text" placeholder="Coupon code">
                             <button type="submit">Apply</button>
@@ -106,4 +118,9 @@
         </div>
     </section>
     <!-- Shopping Cart Section End -->
+{% endblock %}
+{% block extra_js %}
+<script>
+    setInterval(function(){ $(".alert").fadeOut(); }, 3000);
+</script>
 {% endblock %}

@@ -19,8 +19,8 @@ class WishlistPageView(ListView):
 
 
 @login_required
-def add_to_wishlist(request, product_pk):
-    product = ProductModel.objects.get(pk=product_pk)
+def add_to_wishlist(request, pk):
+    product = ProductModel.objects.get(pk=pk)
     current_url_path = request.META['HTTP_REFERER']
     try:
         WishlistModel.objects.create(user=request.user, product=product)
