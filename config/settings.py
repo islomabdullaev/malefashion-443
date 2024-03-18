@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'products',
     'users',
     'blogs',
+    'orders',
 
     # outer apps
 
