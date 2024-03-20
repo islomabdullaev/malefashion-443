@@ -119,11 +119,11 @@ class CartListView(ListView):
         context = super().get_context_data(**kwargs)
         code = self.request.GET.get("coupon")
         try:
-            coupon = CouponModel.objects.get(code=code)
+            coupon = CouponModel.objects.filter(code=code, is_active=True).first()
             context['coupon'] = coupon
         except CouponModel.DoesNotExist:
             context['coupon'] = None
-        
+        print(coupon)
         return context
 
     def get_queryset(self):
