@@ -38,26 +38,28 @@
                             </thead>
                             <tbody>
                                 {% for product in products %}
-                                    <tr>
-                                        <td class="product__cart__item">
-                                            <div class="product__cart__item__pic">
-                                                <img height="90px" width="90px" src="{{ product.image.url }}" alt="">
-                                            </div>
-                                            <div class="product__cart__item__text">
-                                                <h6>{{ product.name }}</h6>
-                                                <h5>${{ product.get_real_price }}<span class="ml-3 text-danger"><s>${{ product.price }}</s></span></h5>
-                                            </div>
-                                        </td>
-                                        <td class="quantity__item">
-                                            <div class="quantity">
-                                                <div class="pro-qty-2">
-                                                    <input type="text" value="1">
+                                        <tr>
+                                            <td class="product__cart__item">
+                                                <div class="product__cart__item__pic">
+                                                    <img height="90px" width="90px" src="{{ product.image.url }}" alt="">
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td class="cart__price">$ 30.00</td>
-                                        <td class="cart__close"><a href="{% url 'products:add_to_cart' pk=product.pk %}"><i class="fa fa-close"></i></a></td>
-                                    </tr>
+                                                <div class="product__cart__item__text">
+                                                    <h6>{{ product.name }}</h6>
+                                                    <h5>${{ product.get_real_price }}<span class="ml-3 text-danger"><s>${{ product.price }}</s></span></h5>
+                                                </div>
+                                            </td>
+                                            <td class="quantity__item">
+                                                <div class="quantity">
+                                                    <form name="myForm" method="POST">
+                                                        <div class="pro-qty-2">
+                                                                <input id="quantityInput" name="quantity" type="text" value="1" onchange="increaseByOne()">                                           
+                                                        </div>
+                                                </form>    
+                                                </div>
+                                            </td>
+                                            <td class="cart__price">$ 30.00</td>
+                                            <td class="cart__close"><a href="{% url 'products:add_to_cart' pk=product.pk %}"><i class="fa fa-close"></i></a></td>
+                                        </tr>
                                 {% endfor %}
                             </tbody>
                         </table>

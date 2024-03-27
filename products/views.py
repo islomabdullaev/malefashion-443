@@ -42,6 +42,22 @@ def add_to_cart(request, pk):
     return redirect(current_url_path)
 
 
+@login_required
+def update_product_data(request, pk, quantity=1):
+    current_url_path = request.META['HTTP_REFERER']
+    cart = request.session.get("data", [])
+    data = {
+        "pk": pk,
+        "quantity": quantity
+    }
+    if data in cart:
+        cart.remove(data)
+    else:
+        cart.append(data)
+    
+    return redirect(current_url_path)
+
+
 class ShopDetailView(DetailView):
     template_name = "shop-details.html"
     model = ProductModel
